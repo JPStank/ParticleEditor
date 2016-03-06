@@ -22,6 +22,8 @@
 
 #include <fstream>
 
+#include <AntTweakBar.h>
+
 //--------------------------------------------------------------------------------
 //include the needed libraries for rendering
 #pragma comment(lib,"d3d11.lib")
@@ -34,6 +36,9 @@
 bool g_windowed = true;
 IDXGIOutput *			g_pVideoOutput = nullptr;
 std::vector<DXGI_MODE_DESC> gDescs;
+
+// tweakBar values
+float g_ClearColor[4];
 
 CRenderer::CRenderer()
 {
@@ -297,7 +302,10 @@ bool CRenderer::Initialize(int width, int height, HWND hwnd)
 	m_pParticleRC = new CParticleRenderContext();
 	m_pParticleRC->Initialize(m_pd3dDevice, m_pd3dDeviceContext, m_pDefaultTexture);
 
-
+	g_ClearColor[0] = 0.1f;
+	g_ClearColor[1] = 0.1f;
+	g_ClearColor[2] = 0.1f;
+	g_ClearColor[3] = 1.0f;
 	return true;
 }
 bool CRenderer::ShutDown(void)
@@ -357,7 +365,7 @@ void CRenderer::Render(void)
 {
 	float color[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
 
-	m_pd3dDeviceContext->ClearRenderTargetView(m_pd3dRenderTargetView, color);
+	m_pd3dDeviceContext->ClearRenderTargetView(m_pd3dRenderTargetView, g_ClearColor);
 	m_pd3dDeviceContext->ClearDepthStencilView(m_pd3dDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 	m_tSceneMatricies.m_d3dViewMatrix = m_pCamera->GetView();
@@ -379,6 +387,9 @@ void CRenderer::Render(void)
 	TurnAlphaBlendingOn();
 	m_pParticleRC->Render();
 	TurnAlphaBlendingOff();
+	
+	// draw tweak bars
+	TwDraw();
 
 	m_pd3dSwapChain->Present(0, 0);
 }

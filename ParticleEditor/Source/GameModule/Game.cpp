@@ -15,11 +15,10 @@
 #include "../States/IState.h"
 #include "../States/LevelState.h"
 
+
 //--------------------------------------------------------------------------------
 bool CGame::m_bShowCursor = true;
 bool CGame::m_bKeepCursorPos = true;
-
-// comment this out to default to 720p
 
 //--------------------------------------------------------------------------------
 CGame::CGame() :
@@ -62,12 +61,12 @@ void CGame::SceneInit()
 	m_pAssetManager->SetDevice(m_pRenderer->GetDevice());
 	m_pAssetManager->SetWindowSize((unsigned int)m_nWindowWidth, (unsigned int)m_nWindowHeight);
 
+
+
 	using namespace Events;
 
 	//Register scene objects
-	RegisterObject<Entity3D>("Cube");
 	RegisterObject<Camera>("Camera");
-	RegisterRenderObject<PerObject>("Box");
 	RegisterRenderObject<PerFrame>("view");
 
 	MessageSystem *ms = MessageSystem::GetInstance();
@@ -175,6 +174,7 @@ void CGame::SceneEnd() {
 	m_pAssetManager->ShutDown();
 	delete m_pAssetManager;
 	m_pAssetManager = nullptr;
+
 
 	m_pRenderer->ShutDown();
 	delete m_pRenderer;

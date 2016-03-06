@@ -16,6 +16,7 @@
 #include "../InputModule/InputController.h"
 #include "../Log.h"
 #include "../GameModule/Game.h"
+#include <AntTweakBar.h>
 
 // MEMORY LEAK THINGS
 #define CRTDBG_MAP_ALLOC
@@ -171,6 +172,11 @@ void CApplication::DoFrame( float timeDelta, float timeTotal ) {
 void CApplication::DoIdleFrame( float timeDelta, float timeTotal ) {}
 //--------------------------------------------------------------------------------
 LRESULT CApplication::WindowProc(HWND _hWnd, UINT _msg, WPARAM _wParam, LPARAM _lParam) {
+
+	// let tweak bar get message
+	if (TwEventWin(_hWnd, _msg, _wParam, _lParam)) // send event message to AntTweakBar
+		return 0; // event has been handled by AntTweakBar
+
 	LRESULT notHandled = m_input->WindowProc(_hWnd, _msg, _wParam, _lParam);
 	///////////////////////////////////////////////////////////////////////////////
 	////Debug hint for wndproc info:

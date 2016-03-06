@@ -13,6 +13,10 @@
 #include "../EventModule/EventManager.h"
 #include "Camera.h"
 
+#include <AntTweakBar.h>
+extern float g_ClearColor[4];
+
+
 CLevel::CLevel()
 {
 
@@ -25,6 +29,7 @@ CLevel::~CLevel()
 
 void CLevel::ShutDown()
 {
+	TwTerminate();
 	UnLoadLevel();
 	ClearObjects();
 }
@@ -72,6 +77,23 @@ bool CLevel::Initialize(string _levelname, CGame* _theGame)
 	m_pTheGame = _theGame;
 	m_pTheAssMan = m_pTheGame->GetAssetManager();
 	m_pTheRenderer = m_pTheGame->GetRenderer();
+
+	// init tweak bar here since this holds onto both renderer and emitters
+	if (!TwInit(TW_DIRECT3D11, m_pTheRenderer->GetDevice()))
+	{
+		MessageBoxA(m_pTheGame->GetHandle(), TwGetLastError(), "AntTweakBar initialization failed", MB_OK | MB_ICONERROR);
+		return false;
+	}
+	TwWindowSize(m_pTheGame->GetWindWidthDirty(), m_pTheGame->GetWindHeightDirty());
+
+	// create the bar
+	TwBar *bar = TwNewBar("myBar");
+	TwDefine(" GLOBAL help='This example shows how to integrate AntTweakBar into a DirectX11 application.' "); // Message added to the help bar.
+	int barSize[2] = { 224, 320 };
+	TwSetParam(bar, NULL, "size", TW_PARAM_INT32, 2, barSize);
+
+	// add some variables
+	TwAddVarRW(bar, "ClearColor", TW_TYPE_COLOR3F, &g_ClearColor, "colormode=rgb");
 
 	return LoadLevel(_levelname);
 }
