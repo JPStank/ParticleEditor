@@ -7,3 +7,5 @@ ipch
 *.db
 *.opensdf
 *.user
+*.csh
+*.cso
