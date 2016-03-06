@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Game">
+      <UniqueIdentifier>{4d735bce-cf87-40ae-ba3a-74868cee9c02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{86ba6d94-9105-4aa0-89ee-5a185e0be72e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{dc2bce11-508f-4477-8f9f-faa17d5e5528}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{59d0abc2-cf7d-493a-9d1d-32c07af2a09d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Shaders">
+      <UniqueIdentifier>{bd87f997-1919-48a1-9b2e-9fb5a56a58eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{b8c029a0-d52c-4565-aa59-45a1c87e22c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinMain">
+      <UniqueIdentifier>{48f637c5-030e-4275-9dea-30d22969d9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{41a08b3d-0ea2-4bdb-bbf4-5530cf9ef32e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssMan">
+      <UniqueIdentifier>{2b848cca-6959-481c-9d51-49b4f27014c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emitters">
+      <UniqueIdentifier>{900bb71d-24a8-45f7-9288-8ca131b6b7b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log/Tools">
+      <UniqueIdentifier>{a548f091-8aa9-4bdb-b264-9472987d6965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssMan\DDS Shit">
+      <UniqueIdentifier>{420e06e4-67e2-41ba-8618-572740db716c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssMan\TinyXML">
+      <UniqueIdentifier>{73343adc-e30b-4439-b9e3-1f26a7c9d582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="States">
+      <UniqueIdentifier>{512d681c-99d0-455d-9990-aab04b1b63c7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Log.cpp">
+      <Filter>Log/Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DXLog.cpp">
+      <Filter>Log/Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Texture2D.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RendererModule\Renderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LevelModule\Camera.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LevelModule\Entity3D.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LevelModule\BaseObject.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LevelModule\IBaseObject.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LevelModule\Transform.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LevelModule\ObjectRegistry.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EventModule\EventManager.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EventModule\MessageSystem.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WinMain\Application.cpp">
+      <Filter>WinMain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WinMain\MainWindow.cpp">
+      <Filter>WinMain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PrecisionTimer.cpp">
+      <Filter>Log/Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameModule\Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameModule\GameController.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\InputModule\InputController.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\InputModule\InputManager.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AssetModule\Texture.cpp">
+      <Filter>AssMan</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LevelModule\IComponent.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LevelModule\Object.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RendererModule\RenderComponent.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RendererModule\DebugRenderContext.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AssetModule\AssetManager.cpp">
+      <Filter>AssMan</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LevelModule\CLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EmitterModule\EmitterManager.cpp">
+      <Filter>Emitters</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EmitterModule\ParticleSystem.cpp">
+      <Filter>Emitters</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RendererModule\ParticleRenderContext.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AssetModule\DDSTextureLoader.cpp">
+      <Filter>AssMan\DDS Shit</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EmitterModule\ParticleSpawners.cpp">
+      <Filter>Emitters</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EmitterModule\ParticleUpdaters.cpp">
+      <Filter>Emitters</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AssetModule\tinystr.cpp">
+      <Filter>AssMan\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AssetModule\tinyxml.cpp">
+      <Filter>AssMan\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AssetModule\tinyxmlerror.cpp">
+      <Filter>AssMan\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AssetModule\tinyxmlparser.cpp">
+      <Filter>AssMan\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\pch.cpp">
+      <Filter>Log/Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\States\IState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\States\LevelState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Log.h">
+      <Filter>Log/Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DXLog.h">
+      <Filter>Log/Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderNode.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Texture2d.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderType.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderNodeInfo.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RendererModule\Renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LevelModule\Camera.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LevelModule\Entity3D.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LevelModule\BaseObject.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LevelModule\IBaseModule.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LevelModule\IBaseObject.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LevelModule\Transform.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LevelModule\ObjectRegistry.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Interface.h">
+      <Filter>Log/Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventModule\Delegate.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventModule\Event.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventModule\EventArgs.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventModule\EventManager.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventModule\FastDelegate.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventModule\MessageSystem.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventModule\RootDelegate.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WinMain\Application.h">
+      <Filter>WinMain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WinMain\IWindProc.h">
+      <Filter>WinMain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WinMain\MainWindow.h">
+      <Filter>WinMain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PrecisionTimer.h">
+      <Filter>Log/Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ExporterHeader.h">
+      <Filter>Log/Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameModule\Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameModule\GameController.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\InputModule\InputController.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\InputModule\InputManager.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetModule\Texture.h">
+      <Filter>AssMan</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LevelModule\IComponent.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LevelModule\Object.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RendererModule\RenderDefines.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RendererModule\IRenderContext.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RendererModule\RenderComponent.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RendererModule\DebugRenderContext.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetModule\AssetManager.h">
+      <Filter>AssMan</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LevelModule\CLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EmitterModule\EmitterManager.h">
+      <Filter>Emitters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EmitterModule\ParticleSystem.h">
+      <Filter>Emitters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RendererModule\ParticleRenderContext.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetModule\dds.h">
+      <Filter>AssMan\DDS Shit</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetModule\DirectXHelpers.h">
+      <Filter>AssMan\DDS Shit</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetModule\PlatformHelpers.h">
+      <Filter>AssMan\DDS Shit</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetModule\DDSTextureLoader.h">
+      <Filter>AssMan\DDS Shit</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EmitterModule\ParticleDefines.h">
+      <Filter>Emitters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EmitterModule\ParticleSpawners.h">
+      <Filter>Emitters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EmitterModule\ParticleUpdaters.h">
+      <Filter>Emitters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetModule\tinystr.h">
+      <Filter>AssMan\TinyXML</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AssetModule\tinyxml.h">
+      <Filter>AssMan\TinyXML</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\pch.h">
+      <Filter>Log/Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\States\IState.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\States\LevelState.h">
+      <Filter>States</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\RendererModule\Shaders\ShaderDefines.hlsli">
+      <Filter>Renderer\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Source\LevelModule\placeholder.txt">
+      <Filter>Level</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Source\RendererModule\Shaders\ColorVS.hlsl">
+      <Filter>Renderer\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\RendererModule\Shaders\ColorPS.hlsl">
+      <Filter>Renderer\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\RendererModule\Shaders\ParticleGS.hlsl">
+      <Filter>Renderer\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\RendererModule\Shaders\ParticlePS.hlsl">
+      <Filter>Renderer\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Source\RendererModule\Shaders\ParticleVS.hlsl">
+      <Filter>Renderer\Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

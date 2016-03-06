@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<ParticleObject>
+	<base Tag="10" />
+	<components>
+		<renderer CompType ="1" Type="2" />
+		<particle CompType="3" ParticleFile="testParticle" />
+	</components>
+</ParticleObject>

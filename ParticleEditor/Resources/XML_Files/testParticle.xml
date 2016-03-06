@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<ParticleSystem maxCount="1500.0" emissionRate="1000.0">
+	<ParticleSpawners>
+		<PosSpawner type="boxPos" centerX="0.0" centerY="0.0" centerZ="0.0" offsetX="0.1" offsetY="0.1" offsetZ="0.1"/>
+		<VelSpawner type="sphereVel" speed="5.5"/>
+		<TimeSpawner type="uniformTime" duration="1.0" />
+	</ParticleSpawners>
+	<ParticleUpdaters>
+		<PosUpdater type="eulerPos" accX="0.0" accY="-5.0" accZ="0.0" />
+		<ColorUpdater type="lerpColor" startR="1.0" startG="1.0" startB="1.0" startA="1.0" endR="1.0" endG="0.0" endB="0.0" endA="1.0" />
+		<TimeUpdater type="defaultTime" />
+	</ParticleUpdaters>
+</ParticleSystem>
