@@ -50,6 +50,8 @@ private:
 	void OnMoveBackKeyDown(const Events::CGeneralEventArgs<float>& args);
 	void OnMoveLeftKeyDown(const Events::CGeneralEventArgs<float>& args);
 	void OnMoveRightKeyDown(const Events::CGeneralEventArgs<float>& args);
+	void OnMoveUpKeyDown(const Events::CGeneralEventArgs<float>& args);
+	void OnMoveDownKeyDown(const Events::CGeneralEventArgs<float>& args);
 	void OnMouseLDown(const Events::CGeneralEventArgs<float>& args);
 	void SpeedUp(const Events::CBaseEventArgs&);
 	void SlowDown(const Events::CBaseEventArgs&);

@@ -37,6 +37,8 @@ m_fAspectRatio(0.f) {
 	EventManager()->RegisterClient(ms->Call<const EVENTID&, const EVENTID>("GetKeyDown", "DirBack"), this, &Camera::OnMoveBackKeyDown);
 	EventManager()->RegisterClient(ms->Call<const EVENTID&, const EVENTID>("GetKeyDown", "DirLeft"), this, &Camera::OnMoveLeftKeyDown);
 	EventManager()->RegisterClient(ms->Call<const EVENTID&, const EVENTID>("GetKeyDown", "DirRight"), this, &Camera::OnMoveRightKeyDown);
+	EventManager()->RegisterClient(ms->Call<const EVENTID&, const EVENTID>("GetKeyDown", "DirUp"), this, &Camera::OnMoveUpKeyDown);
+	EventManager()->RegisterClient(ms->Call<const EVENTID&, const EVENTID>("GetKeyDown", "DirDown"), this, &Camera::OnMoveDownKeyDown);
 	EventManager()->RegisterClient(ms->Call<const EVENTID&, const EVENTID>("GetKeyDown", "MouseLButton"), this, &Camera::OnMouseLDown);
 	EventManager()->RegisterClient(ms->Call<const EVENTID&, const EVENTID>("GetKeyDown", "DebugSpeedUp"), this, &Camera::SpeedUp);
 	//Up
@@ -49,6 +51,8 @@ Camera::~Camera() {
 	EventManager()->UnregisterClient("DirBack", this, &Camera::OnMoveBackKeyDown);
 	EventManager()->UnregisterClient("DirLeft", this, &Camera::OnMoveLeftKeyDown);
 	EventManager()->UnregisterClient("DirRight", this, &Camera::OnMoveRightKeyDown);
+	EventManager()->UnregisterClient("DirUp", this, &Camera::OnMoveUpKeyDown);
+	EventManager()->UnregisterClient("DirDown", this, &Camera::OnMoveDownKeyDown);
 	EventManager()->UnregisterClient("MouseLButton", this, &Camera::OnMouseLDown);
 
 	MessageSystem *ms = MessageSystem::GetInstance();
@@ -57,6 +61,8 @@ Camera::~Camera() {
 		ms->Call<bool, EVENTID>("RemoveKey", "DirBack");
 		ms->Call<bool, EVENTID>("RemoveKey", "DirLeft");
 		ms->Call<bool, EVENTID>("RemoveKey", "DirRight");
+		ms->Call<bool, EVENTID>("RemoveKey", "DirUp");
+		ms->Call<bool, EVENTID>("RemoveKey", "DirDown");
 		ms->Call<bool, EVENTID>("RemoveKey", "MouseLButton");
 		ms->Call<bool, EVENTID>("RemoveKey", "DebugSpeedUp");
 		ms->Call<bool, EVENTID>("RemoveKey", "DebugSpeedDown");
@@ -123,6 +129,15 @@ void Camera::OnMoveLeftKeyDown(const CGeneralEventArgs<float>& args) {
 //--------------------------------------------------------------------------------
 void Camera::OnMoveRightKeyDown(const CGeneralEventArgs<float>& args) {
 	XMStoreFloat3(&m_vec3Dir, XMLoadFloat3(&m_vec3Dir) + XMLoadFloat3(&m_vec3RightW));
+}
+void Camera::OnMoveUpKeyDown(const Events::CGeneralEventArgs<float>& args)
+{
+	XMStoreFloat3(&m_vec3Dir, XMLoadFloat3(&m_vec3Dir) + XMLoadFloat3(&m_vec3UpW));
+}
+//--------------------------------------------------------------------------------
+void Camera::OnMoveDownKeyDown(const Events::CGeneralEventArgs<float>& args)
+{
+	XMStoreFloat3(&m_vec3Dir, XMLoadFloat3(&m_vec3Dir) - XMLoadFloat3(&m_vec3UpW));
 }
 //--------------------------------------------------------------------------------
 void Camera::OnMouseLDown(const CGeneralEventArgs<float>& args) {

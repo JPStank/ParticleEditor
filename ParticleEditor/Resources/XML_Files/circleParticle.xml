@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" ?>
+<ParticleSystem maxCount="10000.0" emissionRate="1000.0">
+  <ParticleSpawners>
+    <ScaleSpawner type="uniformScale" scale="0.25" /> 
+    <PosVelSpawner type="circlePosRandomVel" centerX="0.0" centerY="0.0" centerZ="0.0" 
+                   radius="1.0" minSpeed="0.5" maxSpeed="3.0" axis="xy"/>
+    <RotationSpawner type="randomRotation" minAngle="-90.0" maxAngle="90.0"/>
+    <TimeSpawner type="randomTime" minDuration="1.0" maxDuration="4.0"/>
+  </ParticleSpawners>
+  <ParticleUpdaters>
+    <ScaleUpdater type="lerpScale" start="0.01" end="0.35" /> 
+    <PosUpdater type="eulerPos" accX="0.0" accY="0.0" accZ="0.0" />
+    <ColorUpdater type="lerpColor" startR="0.1" startG="1.0" startB="1.0" startA="1.0"
+                  endR="1.0" endG="0.1" endB="0.5" endA="1.0" />
+    <TimeUpdater type="defaultTime" />
+    <RotationUpdater type="constantRotation" speed="180.0" />
+  </ParticleUpdaters>
+</ParticleSystem>

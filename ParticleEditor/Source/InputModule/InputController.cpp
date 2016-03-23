@@ -15,7 +15,9 @@ bool InputController::Init() {
 	AddKeyEvent(m_keyDown, "DirForward", KeyInfo('W', MapType::DOWN) );
 	AddKeyEvent(m_keyDown, "DirBack", KeyInfo('S', MapType::DOWN) );
 	AddKeyEvent(m_keyDown, "DirLeft", KeyInfo('A', MapType::DOWN) );
-	AddKeyEvent(m_keyDown, "DirRight", KeyInfo('D', MapType::DOWN) );
+	AddKeyEvent(m_keyDown, "DirRight", KeyInfo('D', MapType::DOWN));
+	AddKeyEvent(m_keyDown, "DirUp", KeyInfo('E', MapType::DOWN));
+	AddKeyEvent(m_keyDown, "DirDown", KeyInfo('Q', MapType::DOWN));
 	AddKeyEvent(m_keyDown, "MouseLButton", KeyInfo(VK_LBUTTON, MapType::DOWN));
 	AddKeyEvent(m_keyDown, "MouseRButton", KeyInfo(VK_RBUTTON, MapType::DOWN));
 	AddKeyEvent(m_keyDown, "MouseMButton", KeyInfo(VK_MBUTTON, MapType::DOWN));
