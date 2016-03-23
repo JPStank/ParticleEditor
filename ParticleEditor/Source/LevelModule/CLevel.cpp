@@ -17,6 +17,7 @@
 #include <assert.h>
 
 extern float g_ClearColor[4];
+DirectX::XMFLOAT4 g_ParticleQuaternion;
 
 /******************
 * Tweak Bar Globals
@@ -96,11 +97,11 @@ bool CLevel::Initialize(string _levelname, CGame* _theGame)
 	// create the bar
 	g_bar = TwNewBar("myBar");
 	TwDefine(" GLOBAL help='This example shows how to integrate AntTweakBar into a DirectX11 application.' "); // Message added to the help bar.
-	int barSize[2] = { 224, 320 };
+	int barSize[2] = { 224, 520 };
 	TwSetParam(g_bar, NULL, "size", TW_PARAM_INT32, 2, barSize);
 
 	// add some variables
-	TwAddVarRW(g_bar, "ClearColor", TW_TYPE_COLOR3F, &g_ClearColor, "colormode=rgb");
+	TwAddVarRW(g_bar, "ClearColor", TW_TYPE_COLOR3F, &g_ClearColor, " colormode=rgb group=ParticleSystem ");
 
 	// define structs
 	TwStructMember float3Members[] = {
@@ -151,7 +152,14 @@ bool CLevel::LoadLevel(string _levelname)
 
 	CParticleSystem* particle = (CParticleSystem*)m_vobjObjects[0]->GetComponent(IComponent::eEMITTER);
 
-	TwAddVarRW(g_bar, "Emission Rate", TW_TYPE_FLOAT, &particle->m_fEmitRate, std::string(" min=0 max=" + std::to_string(particle->m_unMaxCount) + " step=10.0 ").c_str());
+	TwAddVarRW(g_bar, "Emission Rate", TW_TYPE_FLOAT, &particle->m_fEmitRate, std::string(" min=0 max=" + std::to_string(particle->m_unMaxCount) + " step=10.0 group=ParticleSystem ").c_str());
+
+	// init the quaternion for rotating the particle system
+	using namespace DirectX;
+	XMVECTOR trans, rot, scale;
+	XMMatrixDecompose(&scale, &rot, &trans, XMLoadFloat4x4(&m_vobjObjects[0]->GetTransform().GetWorldMatrix()));
+	XMStoreFloat4(&g_ParticleQuaternion, rot);
+	TwAddVarRW(g_bar, "Rotation", TW_TYPE_QUAT4F, &g_ParticleQuaternion, " group=ParticleSystem ");
 
 	// add customizer for each spawner type
 
@@ -239,7 +247,33 @@ bool CLevel::LoadLevel(string _levelname)
 		}
 	}
 
+	// add updaters
 
+	for each (IParticleUpdater* updater in particle->GetUpdaters())
+	{
+		if (dynamic_cast<CEulerUpdater*>(updater))
+		{
+			CEulerUpdater* euler = (CEulerUpdater*)updater;
+			TwAddVarRW(g_bar, "Acceleration", g_float3Type, &euler->m_d3dAcceleration, " group=PosUpdater ");
+		}
+		else if (dynamic_cast<CColorUpdater*>(updater))
+		{
+			CColorUpdater* color = (CColorUpdater*)updater;
+			TwAddVarRW(g_bar, "Start Color", TW_TYPE_COLOR4F, &color->m_d3dStartColor, " group=ColorUpdater ");
+			TwAddVarRW(g_bar, "End Color", TW_TYPE_COLOR4F, &color->m_d3dEndColor, " group=ColorUpdater ");
+		}
+		else if (dynamic_cast<CScaleUpdater*>(updater))
+		{
+			CScaleUpdater* scale = (CScaleUpdater*)updater;
+			TwAddVarRW(g_bar, "Start Scale", TW_TYPE_FLOAT, &scale->m_fStartScale, " group=ScaleUpdater min=0.001 step=0.001 ");
+			TwAddVarRW(g_bar, "End Scale", TW_TYPE_FLOAT, &scale->m_fEndScale, " group=ScaleUpdater min=0.001 step=0.001 ");
+		}
+		else if (dynamic_cast<CRotationUpdater*>(updater))
+		{
+			CRotationUpdater* rot = (CRotationUpdater*)updater;
+			TwAddVarRW(g_bar, "Speed", TW_TYPE_FLOAT, &rot->m_fSpeed, " group=RotationUpdater step=0.1 ");
+		}
+	}
 	return true;
 }
 
@@ -294,5 +328,8 @@ void CLevel::AddCamera(Camera* _cam)
 
 void CLevel::Update(float _dt)
 {
-
+	using namespace DirectX;
+	float4x4 world;
+	XMStoreFloat4x4(&world, XMMatrixRotationQuaternion(XMLoadFloat4(&g_ParticleQuaternion)));
+	m_vobjObjects[0]->GetTransform().SetLocalMatrix(world);
 }

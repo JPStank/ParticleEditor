@@ -32,7 +32,7 @@ public:
 
 	virtual void Update(float dt, CParticleSystem* sys) override;
 
-private:
+public:
 	float3	m_d3dAcceleration;
 };
 
@@ -45,7 +45,7 @@ public:
 
 	virtual void Update(float dt, CParticleSystem* sys) override;
 
-private:
+public:
 	float4 m_d3dStartColor;
 	float4 m_d3dEndColor;
 };
@@ -59,7 +59,7 @@ public:
 
 	virtual void Update(float dt, CParticleSystem* sys) override;
 
-private:
+public:
 	float m_fStartScale;
 	float m_fEndScale;
 };
@@ -73,7 +73,7 @@ public:
 
 	virtual void Update(float dt, CParticleSystem* sys) override;
 
-private:
+public:
 	float m_fSpeed;
 };
 
