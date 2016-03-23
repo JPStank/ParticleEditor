@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!-- values inside comment blocks are left to show examples on how to create -->
-<ParticleSystem maxCount="5000.0" emissionRate="1000.0">
+<ParticleSystem maxCount="10000.0" emissionRate="1000.0">
   <ParticleSpawners>
     <!--
     <ScaleSpawner type="uniformScale" scale="0.25" /> 
@@ -11,12 +11,12 @@
     <VelSpawner type="sphereVel" speed="2"/>
     <PosVelSpawner type="conePosVel" centerX="0.0" centerY="0.0" centerZ="0.0" halfAngle="15.0" speed="3.0"/>
     <TimeSpawner type="randomTime" minDuration="1.0" maxDuration="4.0"/>
-    <PosVelSpawner type="conePosRandVel" centerX="0.0" centerY="0.0" centerZ="0.0"
-                   halfAngle="25.0" minSpeed="3.0" maxSpeed="7.0"/>
-    -->
     <PosSpawner type="boxPos" centerX="0.0" centerY="0.0" centerZ="0.0" 
                 offsetX="0.1" offsetY="0.1" offsetZ="0.1"/>
     <VelSpawner type="sphereRandomVel" minSpeed="1.0" maxSpeed="4.0"/> 
+    -->
+    <PosVelSpawner type="conePosRandVel" centerX="0.0" centerY="0.0" centerZ="0.0"
+                   halfAngle="25.0" minSpeed="3.0" maxSpeed="7.0"/>
     <ScaleSpawner type="randomScale" minScale="0.01" maxScale="0.3"/>
     <TimeSpawner type="uniformTime" duration="0.75" />
     <RotationSpawner type="randomRotation" minAngle="-90.0" maxAngle="90.0"/>

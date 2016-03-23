@@ -146,6 +146,7 @@ bool CLevel::LoadLevel(string _levelname)
 	}
 
 	// there should only be one object in the scene, and it should have an emitter
+	assert(m_vobjObjects.size() == 1);
 	assert(m_vobjObjects[0]->GetComponent(IComponent::eEMITTER));
 
 	CParticleSystem* particle = (CParticleSystem*)m_vobjObjects[0]->GetComponent(IComponent::eEMITTER);
@@ -165,8 +166,76 @@ bool CLevel::LoadLevel(string _levelname)
 		else if (dynamic_cast<CSphereRandomVelocitySpawner*>(spawner))
 		{
 			CSphereRandomVelocitySpawner* vel = (CSphereRandomVelocitySpawner*)spawner;
-			TwAddVarRW(g_bar, "Min Speed", TW_TYPE_FLOAT, &vel->m_fMinSpeed, " group=VelSpawner ");
-			TwAddVarRW(g_bar, "Max Speed", TW_TYPE_FLOAT, &vel->m_fMaxSpeed, " group=VelSpawner ");
+			TwAddVarRW(g_bar, "Min Speed", TW_TYPE_FLOAT, &vel->m_fMinSpeed, " group=VelSpawner step=0.01 ");
+			TwAddVarRW(g_bar, "Max Speed", TW_TYPE_FLOAT, &vel->m_fMaxSpeed, " group=VelSpawner step=0.01 ");
+		}
+		else if (dynamic_cast<CSphereVelocitySpawner*>(spawner))
+		{
+			CSphereVelocitySpawner* vel = (CSphereVelocitySpawner*)spawner;
+			TwAddVarRW(g_bar, "Speed", TW_TYPE_FLOAT, &vel->m_fSpeed, " group=VelSpawner step=0.01 ");
+		}
+		else if (dynamic_cast<CUniformTimeSpawner*>(spawner))
+		{
+			CUniformTimeSpawner* time = (CUniformTimeSpawner*)spawner;
+			TwAddVarRW(g_bar, "Lifetime", TW_TYPE_FLOAT, &time->m_fDuration, " group=TimeSpawner min=0 step=0.01 ");
+		}
+		else if (dynamic_cast<CUniformScaleSpawner*>(spawner))
+		{
+			CUniformScaleSpawner* scale = (CUniformScaleSpawner*)spawner;
+			TwAddVarRW(g_bar, "Scale", TW_TYPE_FLOAT, &scale->m_fScale, " group=ScaleSpawner min=0.005 step=0.005 ");
+		}
+		else if (dynamic_cast<CUniformRotationSpawner*>(spawner))
+		{
+			CUniformRotationSpawner* rot = (CUniformRotationSpawner*)spawner;
+			TwAddVarRW(g_bar, "Rotation", TW_TYPE_FLOAT, &rot->m_fRotation, " group=RotationSpawner min=0 max=360 step=0.1 ");
+		}
+		else if (dynamic_cast<CRandomTimeSpawner*>(spawner))
+		{
+			CRandomTimeSpawner* time = (CRandomTimeSpawner*)spawner;
+			TwAddVarRW(g_bar, "Min Lifetime", TW_TYPE_FLOAT, &time->m_fMinDuration, " group=TimeSpawner min=0 step=0.01 ");
+			TwAddVarRW(g_bar, "Max Lifetime", TW_TYPE_FLOAT, &time->m_fMaxDuration, " group=TimeSpawner min=0 step=0.01 ");
+		}
+		else if (dynamic_cast<CRandomScaleSpawner*>(spawner))
+		{
+			CRandomScaleSpawner* scale = (CRandomScaleSpawner*)spawner;
+			TwAddVarRW(g_bar, "Min Scale", TW_TYPE_FLOAT, &scale->m_fMinScale, " group=ScaleSpawner min=0.005 step=0.005 ");
+			TwAddVarRW(g_bar, "Max Scale", TW_TYPE_FLOAT, &scale->m_fMaxScale, " group=ScaleSpawner min=0.005 step=0.005 ");
+		}
+		else if (dynamic_cast<CRandomRotationSpawner*>(spawner))
+		{
+			CRandomRotationSpawner* rot = (CRandomRotationSpawner*)spawner;
+			TwAddVarRW(g_bar, "Min Rotation", TW_TYPE_FLOAT, &rot->m_fMinRotation, " group=RotationSpawner min=0 max=360 step=0.1 ");
+			TwAddVarRW(g_bar, "Max Rotation", TW_TYPE_FLOAT, &rot->m_fMaxRotation, " group=RotationSpawner min=0 max=360 step=0.1 ");
+		}
+		else if (dynamic_cast<CCircleSpawner*>(spawner))
+		{
+			CCircleSpawner* circle = (CCircleSpawner*)spawner;
+			TwAddVarRW(g_bar, "Center", g_float3Type, &circle->m_d3dCenter, " group=PosSpawner ");
+			TwAddVarRW(g_bar, "Radius", TW_TYPE_FLOAT, &circle->m_fRadius, " group=PosSpawner min=0 step=0.01 ");
+			TwAddVarRW(g_bar, "Speed", TW_TYPE_FLOAT, &circle->m_fSpeed, " group=VelSpawner step=0.01 ");
+		}
+		else if (dynamic_cast<CCircleRandSpeedSpawner*>(spawner))
+		{
+			CCircleRandSpeedSpawner* circle = (CCircleRandSpeedSpawner*)spawner;
+			TwAddVarRW(g_bar, "Center", g_float3Type, &circle->m_d3dCenter, " group=PosSpawner ");
+			TwAddVarRW(g_bar, "Radius", TW_TYPE_FLOAT, &circle->m_fRadius, " group=PosSpawner min=0 step=0.01 ");
+			TwAddVarRW(g_bar, "Min Speed", TW_TYPE_FLOAT, &circle->m_fMinSpeed, " group=VelSpawner step=0.01 ");
+			TwAddVarRW(g_bar, "Max Speed", TW_TYPE_FLOAT, &circle->m_fMaxSpeed, " group=VelSpawner step=0.01 ");
+		}
+		else if (dynamic_cast<CConeSpawner*>(spawner))
+		{
+			CConeSpawner* cone = (CConeSpawner*)spawner;
+			TwAddVarRW(g_bar, "Center", g_float3Type, &cone->m_d3dCenter, " group=PosSpawner ");
+			TwAddVarRW(g_bar, "Half Angle", TW_TYPE_FLOAT, &cone->m_fHalfAngle, " group=VelSpawner min=0.1 max=89.9 step=0.05 ");
+			TwAddVarRW(g_bar, "Speed", TW_TYPE_FLOAT, &cone->m_fSpeed, " group=VelSpawner step=0.01 ");
+		}
+		else if (dynamic_cast<CConeRandSpeedSpawner*>(spawner))
+		{
+			CConeRandSpeedSpawner* cone = (CConeRandSpeedSpawner*)spawner;
+			TwAddVarRW(g_bar, "Center", g_float3Type, &cone->m_d3dCenter, " group=PosSpawner ");
+			TwAddVarRW(g_bar, "Half Angle", TW_TYPE_FLOAT, &cone->m_fHalfAngle, " group=VelSpawner min=0.1 max=89.9 step=0.05 ");
+			TwAddVarRW(g_bar, "Min Speed", TW_TYPE_FLOAT, &cone->m_fMinSpeed, " group=VelSpawner step=0.01 ");
+			TwAddVarRW(g_bar, "Max Speed", TW_TYPE_FLOAT, &cone->m_fMaxSpeed, " group=VelSpawner step=0.01 ");
 		}
 	}
 
