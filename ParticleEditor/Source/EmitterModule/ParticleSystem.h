@@ -1,12 +1,12 @@
 /***********************************************
 * Filename:           	ParticleSystem.h
 * Date :				02 / 09 / 2016
-* Mod.Date :			02 / 10 / 2016
+* Mod.Date :			03 / 08 / 2016
 * Mod.Initials :		JS
 * Author :				Joshua Stankiewicz
 * Purpose :				Component that holds onto
-the raw data of particles needing
-to be rendered and emitter properties
+					the raw data of particles needing
+					to be rendered and emitter properties
 ************************************************/
 #ifndef _PARTICLE_SYSTEM_H_
 #define _PARTICLE_SYSTEM_H_
@@ -25,7 +25,7 @@ public:
 	~CParticleSystem();
 
 	virtual eComponentType GetType();
-	
+
 	void Kill(unsigned int id);
 	void Wake(unsigned int id);
 	void SwapData(unsigned int a, unsigned int b);
@@ -34,6 +34,8 @@ public:
 	std::vector<DirectX::XMFLOAT4>& GetColor();
 	std::vector<DirectX::XMFLOAT4>& GetVelocity();
 	std::vector<DirectX::XMFLOAT4>& GetTime();
+	std::vector<float>& GetScale();
+	std::vector<float>& GetRotation();
 
 	unsigned int GetAlive() const;
 	unsigned int GetMax() const;
@@ -44,12 +46,14 @@ public:
 	std::vector<IParticleSpawners*>& GetSpawners();
 	std::vector<IParticleUpdater*>& GetUpdaters();
 
-private:
-	// TODO: add more properties as we want them or something
+	// normally set to private, exposing for ease of editor attachment
+public:
 	std::vector<DirectX::XMFLOAT4>		m_vd3dPositions;
 	std::vector<DirectX::XMFLOAT4>		m_vd3dColor;
 	std::vector<DirectX::XMFLOAT4>		m_vd3dVelocity;
 	std::vector<DirectX::XMFLOAT4>		m_vd3dTime;
+	std::vector<float>					m_vfScale;
+	std::vector<float>					m_vfRotation;
 	std::vector<bool>					m_vbAlive;
 
 	unsigned int		m_unMaxCount;

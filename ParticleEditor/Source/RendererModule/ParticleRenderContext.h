@@ -32,6 +32,8 @@ private:
 	ID3D11GeometryShader*			m_pd3dGeometryShader;
 
 	std::vector<CRenderObject*>		m_vpParticles;
+
+	CTexture*						m_pDefaultTexture;
 };
 
 #endif//_PARTICLE_RENDER_CONTEXT_H_

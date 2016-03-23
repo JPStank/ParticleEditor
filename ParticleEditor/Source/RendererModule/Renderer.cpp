@@ -275,13 +275,13 @@ bool CRenderer::Initialize(int width, int height, HWND hwnd)
 
 	// enabled blending
 	blendDesc.RenderTarget[0].BlendEnable = TRUE;
-	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	DXCall(result = m_pd3dDevice->CreateBlendState(&blendDesc, &m_pd3dAlphaEnableBlendingState));
 	DXName(m_pd3dAlphaEnableBlendingState, "Alpha Blending Enabled");
@@ -383,11 +383,12 @@ void CRenderer::Render(void)
 	// render each context
 
 	m_pDebugRC->Render();
-
+	TurnDepthBufferOff();
 	TurnAlphaBlendingOn();
 	m_pParticleRC->Render();
 	TurnAlphaBlendingOff();
-	
+	TurnDepthBufferOn();
+
 	// draw tweak bars
 	TwDraw();
 

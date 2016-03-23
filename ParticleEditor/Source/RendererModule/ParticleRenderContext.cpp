@@ -26,6 +26,7 @@ CParticleRenderContext::CParticleRenderContext()
 	m_pd3dVertexShader = nullptr;
 	m_pd3dPixelShader = nullptr;
 	m_pd3dGeometryShader = nullptr;
+	m_pDefaultTexture = nullptr;
 }
 CParticleRenderContext::~CParticleRenderContext()
 {
@@ -54,6 +55,7 @@ void CParticleRenderContext::Initialize(ID3D11Device* device, ID3D11DeviceContex
 {
 	m_pd3dDevice = device;
 	m_pd3dDeviceContext = deviceContext;
+	m_pDefaultTexture = defaultTexture;
 
 	CreateShadersAndInputLayout();
 }
@@ -90,11 +92,26 @@ void CParticleRenderContext::Render(void)
 		{
 			m_vpParticles[i]->m_ptParticleData[j].m_d3dPosition = particle->GetPosition()[j];
 			m_vpParticles[i]->m_ptParticleData[j].m_d3dColor = particle->GetColor()[j];
+			m_vpParticles[i]->m_ptParticleData[j].m_fScale = particle->GetScale()[j];
+			m_vpParticles[i]->m_ptParticleData[j].m_fRotation = particle->GetRotation()[j];
 		}
 		
 		m_pd3dDeviceContext->Map(m_vpParticles[i]->m_pd3dVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, NULL, &data);
 		memcpy(data.pData, &m_vpParticles[i]->m_ptParticleData[0], sizeof(TParticleVert) * particle->GetMax());
 		m_pd3dDeviceContext->Unmap(m_vpParticles[i]->m_pd3dVertexBuffer, 0);
+
+		// map texture
+		CRenderComponent* rend = (CRenderComponent*)m_vpParticles[i]->m_pobjOwner->GetComponent(IComponent::eRENDER);
+		if (rend->GetTexture())
+		{
+			ID3D11ShaderResourceView* texture[1] = { rend->GetTexture()->GetDiffuse() };
+			m_pd3dDeviceContext->PSSetShaderResources(0, 1, texture);
+		}
+		else
+		{
+			ID3D11ShaderResourceView* texture[1] = { m_pDefaultTexture->GetDiffuse() };
+			m_pd3dDeviceContext->PSSetShaderResources(0, 1, texture);
+		}
 
 		UINT stride = sizeof(TParticleVert);
 		UINT offset = 0;
@@ -122,7 +139,6 @@ void CParticleRenderContext::AddRenderComponent(CObject* obj)
 	}
 
 	// create initial particle verts
-	//TParticleVert* tempVerts;
 	int numVerts;
 	numVerts = (int)particle->GetPosition().size();
 	addMe->m_ptParticleData = new TParticleVert[numVerts];
@@ -130,7 +146,8 @@ void CParticleRenderContext::AddRenderComponent(CObject* obj)
 	{
 		addMe->m_ptParticleData[i].m_d3dPosition = particle->GetPosition()[i];
 		addMe->m_ptParticleData[i].m_d3dColor = particle->GetColor()[i];
-		// add more init data as needed
+		addMe->m_ptParticleData[i].m_fScale = particle->GetScale()[i];
+		addMe->m_ptParticleData[i].m_fRotation = particle->GetRotation()[i];
 	}
 
 	// create vertex buffer
@@ -200,10 +217,12 @@ void CParticleRenderContext::CreateShadersAndInputLayout()
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "SCALE", 0, DXGI_FORMAT_R32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "ROTATION", 0, DXGI_FORMAT_R32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 
-	DXCall(m_pd3dDevice->CreateInputLayout(layout, 2, ParticleVS, sizeof(ParticleVS), &m_pd3dInputLayout));
+	DXCall(m_pd3dDevice->CreateInputLayout(layout, 4, ParticleVS, sizeof(ParticleVS), &m_pd3dInputLayout));
 	DXName(m_pd3dInputLayout, "Particle Input Layout");
 }
 void CParticleRenderContext::ClearContainer(void)

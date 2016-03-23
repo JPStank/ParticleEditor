@@ -14,8 +14,15 @@
 #include "Camera.h"
 
 #include <AntTweakBar.h>
+#include <assert.h>
+
 extern float g_ClearColor[4];
 
+/******************
+* Tweak Bar Globals
+*******************/
+TwBar* g_bar = nullptr;
+TwType g_float3Type;
 
 CLevel::CLevel()
 {
@@ -87,13 +94,22 @@ bool CLevel::Initialize(string _levelname, CGame* _theGame)
 	TwWindowSize(m_pTheGame->GetWindWidthDirty(), m_pTheGame->GetWindHeightDirty());
 
 	// create the bar
-	TwBar *bar = TwNewBar("myBar");
+	g_bar = TwNewBar("myBar");
 	TwDefine(" GLOBAL help='This example shows how to integrate AntTweakBar into a DirectX11 application.' "); // Message added to the help bar.
 	int barSize[2] = { 224, 320 };
-	TwSetParam(bar, NULL, "size", TW_PARAM_INT32, 2, barSize);
+	TwSetParam(g_bar, NULL, "size", TW_PARAM_INT32, 2, barSize);
 
 	// add some variables
-	TwAddVarRW(bar, "ClearColor", TW_TYPE_COLOR3F, &g_ClearColor, "colormode=rgb");
+	TwAddVarRW(g_bar, "ClearColor", TW_TYPE_COLOR3F, &g_ClearColor, "colormode=rgb");
+
+	// define structs
+	TwStructMember float3Members[] = {
+		{ "x", TW_TYPE_FLOAT, offsetof(DirectX::XMFLOAT3, x), " step=0.05 " },
+		{ "y", TW_TYPE_FLOAT, offsetof(DirectX::XMFLOAT3, y), " step=0.05 " },
+		{ "z", TW_TYPE_FLOAT, offsetof(DirectX::XMFLOAT3, z), " step=0.05 " }
+	};
+
+	g_float3Type = TwDefineStruct("float3", float3Members, 3, sizeof(DirectX::XMFLOAT3), NULL, NULL);
 
 	return LoadLevel(_levelname);
 }
@@ -128,6 +144,32 @@ bool CLevel::LoadLevel(string _levelname)
 		m_vobjObjects.push_back(pushMe);
 		RegisterComponents(pushMe);
 	}
+
+	// there should only be one object in the scene, and it should have an emitter
+	assert(m_vobjObjects[0]->GetComponent(IComponent::eEMITTER));
+
+	CParticleSystem* particle = (CParticleSystem*)m_vobjObjects[0]->GetComponent(IComponent::eEMITTER);
+
+	TwAddVarRW(g_bar, "Emission Rate", TW_TYPE_FLOAT, &particle->m_fEmitRate, std::string(" min=0 max=" + std::to_string(particle->m_unMaxCount) + " step=10.0 ").c_str());
+
+	// add customizer for each spawner type
+
+	for each (IParticleSpawners* spawner in particle->GetSpawners())
+	{
+		if (dynamic_cast<CBoxSpawner*>(spawner))
+		{
+			CBoxSpawner* box = (CBoxSpawner*)spawner;
+			TwAddVarRW(g_bar, "Center", g_float3Type, &box->m_d3dCenter, " group=PosSpawner ");
+			TwAddVarRW(g_bar, "Offset", g_float3Type, &box->m_d3dOffset, " group=PosSpawner ");
+		}
+		else if (dynamic_cast<CSphereRandomVelocitySpawner*>(spawner))
+		{
+			CSphereRandomVelocitySpawner* vel = (CSphereRandomVelocitySpawner*)spawner;
+			TwAddVarRW(g_bar, "Min Speed", TW_TYPE_FLOAT, &vel->m_fMinSpeed, " group=VelSpawner ");
+			TwAddVarRW(g_bar, "Max Speed", TW_TYPE_FLOAT, &vel->m_fMaxSpeed, " group=VelSpawner ");
+		}
+	}
+
 
 	return true;
 }

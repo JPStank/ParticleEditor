@@ -1,7 +1,7 @@
 /***********************************************
 * Filename:           	ParticleUpdaters.h
 * Date :				02 / 09 / 2016
-* Mod.Date :			02 / 09 / 2016
+* Mod.Date :			03 / 08 / 2016
 * Mod.Initials :		JS
 * Author :				Joshua Stankiewicz
 * Purpose :				Define the different updates
@@ -61,6 +61,45 @@ void CColorUpdater::Update(float dt, CParticleSystem* sys)
 			LERP(m_d3dStartColor.z, m_d3dEndColor.z, sys->GetTime()[i].z),
 			LERP(m_d3dStartColor.w, m_d3dEndColor.w, sys->GetTime()[i].z)
 		};
+	}
+}
+CScaleUpdater::CScaleUpdater()
+{
+	m_fEndScale = m_fStartScale = 0.1f;
+}
+CScaleUpdater::CScaleUpdater(float start, float end)
+{
+	m_fStartScale = start;
+	m_fEndScale = end;
+}
+CScaleUpdater::~CScaleUpdater()
+{
+}
+void CScaleUpdater::Update(float dt, CParticleSystem* sys)
+{
+	unsigned int end = sys->GetAlive();
+	for (unsigned int i = 0; i < end; ++i)
+	{
+		sys->GetScale()[i] = LERP(m_fStartScale, m_fEndScale, sys->GetTime()[i].z);
+	}
+}
+CRotationUpdater::CRotationUpdater()
+{
+	m_fSpeed = 90.0f;
+}
+CRotationUpdater::CRotationUpdater(float anglesPerSecond)
+{
+	m_fSpeed = anglesPerSecond;
+}
+CRotationUpdater::~CRotationUpdater()
+{
+}
+void CRotationUpdater::Update(float dt, CParticleSystem* sys)
+{
+	unsigned int end = sys->GetAlive();
+	for (unsigned int i = 0; i < end; ++i)
+	{
+		sys->GetRotation()[i] += m_fSpeed * dt;
 	}
 }
 CTimeUpdater::CTimeUpdater()

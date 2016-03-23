@@ -53,6 +53,9 @@ struct Light
 	float Intensity;
 	uint LightType;
 };
+texture2D diffuseTexture : register(t0);
+texture2D normalTexture : register(t1);
+texture2D specularTexture : register(t2);
 
 StructuredBuffer<Light> myLights : register(t8);
 
@@ -88,6 +91,8 @@ struct PARTICLE_VERT_IN
 {
 	float4 position : POSITION;
 	float4 color : COLOR;
+	float scale : SCALE;
+	float rot : ROTATION;
 };
 
 struct PARTICLE_VERT_OUT

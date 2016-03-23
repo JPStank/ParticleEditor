@@ -34,7 +34,7 @@
 #define NUM_BONES 50
 
 /**********
-* TYPEDEFS cause i'm lazy
+* TYPEDEFS
 **********/
 
 typedef DirectX::XMFLOAT2 float2;
@@ -67,8 +67,8 @@ struct TParticleVert
 {
 	float4 m_d3dPosition;
 	float4 m_d3dColor;
-	//float  m_fScale;
-	//float  m_fRotation;
+	float  m_fScale;
+	float  m_fRotation;
 };
 
 // used for animated skinned meshes
@@ -139,7 +139,6 @@ public:
 	ID3D11Buffer*	m_pd3dVertexBuffer;
 	ID3D11Buffer*	m_pd3dIndexBuffer;
 	ID3D11Buffer*	m_pd3dMatrixBuffer;
-	// TODO: Add more items as they reveal themselves
 
 	TParticleVert*	m_ptParticleData;
 };

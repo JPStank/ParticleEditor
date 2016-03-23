@@ -2,7 +2,7 @@
 <ParticleObject>
 	<base Tag="10" />
 	<components>
-		<renderer CompType ="1" Type="2" />
+		<renderer CompType ="1" Texture="defaultParticle" Type="2" />
 		<particle CompType="3" ParticleFile="testParticle" />
 	</components>
 </ParticleObject>

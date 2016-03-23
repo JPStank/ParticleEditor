@@ -1,11 +1,11 @@
 /***********************************************
 * Filename:           	ParticleUpdaters.h
 * Date :				02 / 09 / 2016
-* Mod.Date :			02 / 09 / 2016
+* Mod.Date :			03 / 08 / 2016
 * Mod.Initials :		JS
 * Author :				Joshua Stankiewicz
 * Purpose :				Define the different updates
-				that a given system will apply to particles
+that a given system will apply to particles
 ************************************************/
 #ifndef _PARTICLE_UPDATERS_H_
 #define _PARTICLE_UPDATERS_H_
@@ -48,6 +48,33 @@ public:
 private:
 	float4 m_d3dStartColor;
 	float4 m_d3dEndColor;
+};
+
+class CScaleUpdater : public IParticleUpdater
+{
+public:
+	CScaleUpdater();
+	CScaleUpdater(float startScale, float endScale);
+	virtual ~CScaleUpdater();
+
+	virtual void Update(float dt, CParticleSystem* sys) override;
+
+private:
+	float m_fStartScale;
+	float m_fEndScale;
+};
+
+class CRotationUpdater : public IParticleUpdater
+{
+public:
+	CRotationUpdater();
+	CRotationUpdater(float anglesPerSecond);
+	virtual ~CRotationUpdater();
+
+	virtual void Update(float dt, CParticleSystem* sys) override;
+
+private:
+	float m_fSpeed;
 };
 
 class CTimeUpdater : public IParticleUpdater

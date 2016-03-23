@@ -209,7 +209,6 @@ bool CAssetManager::LoadTexture(const WCHAR* _path, CTexture** _texture)
 
 	t->AssignTexture(CTexture::eDIFFUSE, diffuse);
 	*_texture = t;
-	// TODO: add multi texture support
 	return false;
 }
 
@@ -263,7 +262,7 @@ bool CAssetManager::LoadPrefab(std::string _objName, CObject** _object) //pass i
 				std::string textureName = pChild->Attribute("Texture");
 				if (!MapContains(m_mpTextures, textureName))
 				{
-					std::wstring wName = ConvertToWide(textureName); // i fucking hate wide strings
+					std::wstring wName = ConvertToWide(textureName);
 					std::wstring path = L"Resources/Texture/" + wName + L".dds";
 					LoadTexture(path.c_str(), &m_mpTextures[textureName]);
 					m_mpTextures[textureName]->SetName(textureName.c_str());
@@ -281,7 +280,7 @@ bool CAssetManager::LoadPrefab(std::string _objName, CObject** _object) //pass i
 						std::string textureName = pTextures->Attribute("Texture");
 						if (!MapContains(m_mpTextures, textureName))
 						{
-							std::wstring wName = ConvertToWide(textureName); // i fucking hate wide strings
+							std::wstring wName = ConvertToWide(textureName);
 							std::wstring path = L"Resources/Texture/" + wName + L".dds";
 							LoadTexture(path.c_str(), &m_mpTextures[textureName]);
 							m_mpTextures[textureName]->SetName(textureName.c_str());
@@ -305,7 +304,7 @@ bool CAssetManager::LoadPrefab(std::string _objName, CObject** _object) //pass i
 				if (!MapContains(m_mpParticleSystems, particleName))
 				{
 					std::string path = "Resources/XML_Files/" + particleName + ".xml";
-					LoadParticleSystem(path.c_str(), &m_mpParticleSystems[particleName]); // calls new
+					LoadParticleSystem(path.c_str(), &m_mpParticleSystems[particleName]);
 					(*_object)->AddComponent(m_mpParticleSystems[particleName]);
 				}
 			}
@@ -387,7 +386,7 @@ bool CAssetManager::LoadParticleSystem(const char* _path, CParticleSystem** _sys
 
 		if (type == "boxPos")
 		{
-			double cX, cY, cZ, oX, oY, oZ; // center and offset
+			double cX, cY, cZ, oX, oY, oZ;
 			pSpawn->Attribute("centerX", &cX);
 			pSpawn->Attribute("centerY", &cY);
 			pSpawn->Attribute("centerZ", &cZ);
@@ -395,7 +394,85 @@ bool CAssetManager::LoadParticleSystem(const char* _path, CParticleSystem** _sys
 			pSpawn->Attribute("offsetY", &oY);
 			pSpawn->Attribute("offsetZ", &oZ);
 
-			sys->GetSpawners().push_back(new CBoxSpawner(float3((float)cX, (float)cY, (float)cZ), float3((float)oX, (float)oY, (float)oZ)));
+			sys->GetSpawners().push_back(new CBoxSpawner(
+				float3((float)cX, (float)cY, (float)cZ),
+				float3((float)oX, (float)oY, (float)oZ)));
+		}
+		else if (type == "circlePosVel")
+		{
+			double cX, cY, cZ, r, speed;
+			std::string axis;
+			pSpawn->Attribute("centerX", &cX);
+			pSpawn->Attribute("centerY", &cY);
+			pSpawn->Attribute("centerZ", &cZ);
+			pSpawn->Attribute("radius", &r);
+			pSpawn->Attribute("speed", &speed);
+			axis = pSpawn->Attribute("axis");
+			if (axis != "xy" && axis != "yz" && axis != "xz")
+			{
+				Log("Circle Spawner axis attribute must be 'xy' 'yz' or 'xz'. Defaulting to xy.");
+				axis = "xy";
+			}
+
+			sys->GetSpawners().push_back(new CCircleSpawner(
+				float3((float)cX, (float)cY, (float)cZ),
+				(float)r,
+				(float)speed,
+				axis));
+		}
+		else if (type == "circlePosRandomVel")
+		{
+			double cX, cY, cZ, r, min, max;
+			std::string axis;
+			pSpawn->Attribute("centerX", &cX);
+			pSpawn->Attribute("centerY", &cY);
+			pSpawn->Attribute("centerZ", &cZ);
+			pSpawn->Attribute("radius", &r);
+			pSpawn->Attribute("minSpeed", &min);
+			pSpawn->Attribute("maxSpeed", &max);
+			axis = pSpawn->Attribute("axis");
+			if (axis != "xy" && axis != "yz" && axis != "xz")
+			{
+				Log("Circle Spawner axis attribute must be 'xy' 'yz' or 'xz'. Defaulting to xy.");
+				axis = "xy";
+			}
+
+			sys->GetSpawners().push_back(new CCircleRandSpeedSpawner(
+				float3((float)cX, (float)cY, (float)cZ),
+				(float)r,
+				(float)min,
+				(float)max,
+				axis));
+		}
+		else if (type == "conePosVel")
+		{
+			double cX, cY, cZ, halfAngle, speed;
+			pSpawn->Attribute("centerX", &cX);
+			pSpawn->Attribute("centerY", &cY);
+			pSpawn->Attribute("centerZ", &cZ);
+			pSpawn->Attribute("halfAngle", &halfAngle);
+			pSpawn->Attribute("speed", &speed);
+
+			sys->GetSpawners().push_back(new CConeSpawner(
+				float3((float)cX, (float)cY, (float)cZ),
+				(float)halfAngle,
+				(float)speed));
+		}
+		else if (type == "conePosRandVel")
+		{
+			double cX, cY, cZ, halfAngle, min, max;
+			pSpawn->Attribute("centerX", &cX);
+			pSpawn->Attribute("centerY", &cY);
+			pSpawn->Attribute("centerZ", &cZ);
+			pSpawn->Attribute("halfAngle", &halfAngle);
+			pSpawn->Attribute("minSpeed", &min);
+			pSpawn->Attribute("maxSpeed", &max);
+
+			sys->GetSpawners().push_back(new CConeRandSpeedSpawner(
+				float3((float)cX, (float)cY, (float)cZ),
+				(float)halfAngle,
+				(float)min,
+				(float)max));
 		}
 		else if (type == "sphereVel")
 		{
@@ -404,12 +481,58 @@ bool CAssetManager::LoadParticleSystem(const char* _path, CParticleSystem** _sys
 
 			sys->GetSpawners().push_back(new CSphereVelocitySpawner((float)speed));
 		}
+		else if (type == "sphereRandomVel")
+		{
+			double min, max;
+			pSpawn->Attribute("minSpeed", &min);
+			pSpawn->Attribute("maxSpeed", &max);
+
+			sys->GetSpawners().push_back(new CSphereRandomVelocitySpawner((float)min, (float)max));
+		}
 		else if (type == "uniformTime")
 		{
 			double duration;
 			pSpawn->Attribute("duration", &duration);
 
 			sys->GetSpawners().push_back(new CUniformTimeSpawner((float)duration));
+		}
+		else if (type == "randomTime")
+		{
+			double min, max;
+			pSpawn->Attribute("minDuration", &min);
+			pSpawn->Attribute("maxDuration", &max);
+
+			sys->GetSpawners().push_back(new CRandomTimeSpawner((float)min, (float)max));
+		}
+		else if (type == "uniformScale")
+		{
+			double scale;
+			pSpawn->Attribute("scale", &scale);
+
+			sys->GetSpawners().push_back(new CUniformScaleSpawner((float)scale));
+		}
+		else if (type == "randomScale")
+		{
+			double min, max;
+			pSpawn->Attribute("minScale", &min);
+			pSpawn->Attribute("maxScale", &max);
+
+			sys->GetSpawners().push_back(new CRandomScaleSpawner((float)min, (float)max));
+		}
+		else if (type == "uniformRotation")
+		{
+			double angle;
+			pSpawn->Attribute("angle", &angle);
+
+			sys->GetSpawners().push_back(new CUniformRotationSpawner((float)angle));
+		}
+		else if (type == "randomRotation")
+		{
+			double min, max;
+			pSpawn->Attribute("minAngle", &min);
+			pSpawn->Attribute("maxAngle", &max);
+
+			sys->GetSpawners().push_back(new CRandomRotationSpawner((float)min, (float)max));
 		}
 		else
 		{
@@ -452,11 +575,28 @@ bool CAssetManager::LoadParticleSystem(const char* _path, CParticleSystem** _sys
 			pUpdate->Attribute("endB", &eB);
 			pUpdate->Attribute("endA", &eA);
 
-			sys->GetUpdaters().push_back(new CColorUpdater(float4((float)sR, (float)sG, (float)sB, (float)sA), float4((float)eR, (float)eG, (float)eB, (float)eA)));
+			sys->GetUpdaters().push_back(new CColorUpdater(
+				float4((float)sR, (float)sG, (float)sB, (float)sA),
+				float4((float)eR, (float)eG, (float)eB, (float)eA)));
 		}
 		else if (type == "defaultTime")
 		{
 			sys->GetUpdaters().push_back(new CTimeUpdater());
+		}
+		else if (type == "lerpScale")
+		{
+			double start, end;
+			pUpdate->Attribute("start", &start);
+			pUpdate->Attribute("end", &end);
+
+			sys->GetUpdaters().push_back(new CScaleUpdater((float)start, (float)end));
+		}
+		else if (type == "constantRotation")
+		{
+			double speed;
+			pUpdate->Attribute("speed", &speed);
+
+			sys->GetUpdaters().push_back(new CRotationUpdater((float)speed));
 		}
 		else
 		{
@@ -470,6 +610,7 @@ bool CAssetManager::LoadParticleSystem(const char* _path, CParticleSystem** _sys
 
 	return true;
 }
+
 bool CAssetManager::LoadLevel(std::string _lvlName, std::vector<SpawnObject>& _spawns)
 {
 	std::string path = "Resources/XML_Files/" + _lvlName + ".xml";
